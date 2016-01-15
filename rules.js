@@ -110,10 +110,10 @@ module.exports = function(styles) {
         var items = _.map(node.items, function(item, i) {
           var bullet;
           if (node.ordered) {
-            bullet = React.createElement(Text, { style: styles.listItemNumber  }, (i + 1) + '. ');
+            bullet = React.createElement(Text, { key: i, style: styles.listItemNumber }, (i + 1) + '. ');
           }
           else {
-            bullet = React.createElement(Text, { style: styles.listItemBullet }, '\u2022 ');
+            bullet = React.createElement(Text, { key: i, style: styles.listItemBullet }, '\u2022 ');
           }
           return React.createElement(View, {
             key: i,
@@ -163,11 +163,12 @@ module.exports = function(styles) {
       react: function(node, output, state) {
         var headers = _.map(node.header, function(content, i) {
           return React.createElement(Text, {
-            style: styles.tableHeaderCell
+            key: i,
+            style: styles.tableHeaderCell,
           }, output(content, state));
         });
 
-        var header = React.createElement(View, { style: styles.tableHeader }, headers);
+        var header = React.createElement(View, { key: -1, style: styles.tableHeader }, headers);
 
         var rows = _.map(node.cells, function(row, r) {
           var cells = _.map(row, function(content, c) {
@@ -200,7 +201,8 @@ module.exports = function(styles) {
             textStyles.push(styles.plainText);
           }
           return React.createElement(Text, {
-            style: textStyles
+            key: i,
+            style: textStyles,
           }, word);
         });
         return words;
