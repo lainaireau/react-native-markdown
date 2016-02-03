@@ -66,10 +66,13 @@ module.exports = function(styles) {
     heading: {
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(Text, {
+        state.withinHeading = true;
+        const ret = React.createElement(Text, {
           key: state.key,
           style: [styles.heading, styles['heading' + node.level]]
         }, output(node.content, state));
+        state.withinHeading = false;
+        return ret;
       }
     },
     hr: {
@@ -198,6 +201,9 @@ module.exports = function(styles) {
           }
           var textStyles = [styles.text];
           if (!state.withinText) {
+            textStyles.push(styles.plainText);
+          }
+          if (!state.withinHeading) {
             textStyles.push(styles.plainText);
           }
           return React.createElement(Text, {
