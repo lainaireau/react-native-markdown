@@ -119,10 +119,19 @@ module.exports = function(styles) {
             bullet = React.createElement(Text, { key: 0, style: styles.listItemBullet }, '\u2022 ');
           }
 
-          var listItem = React.createElement(Text, {
-            style: styles.listItem,
-            key: 1
-          }, output(item, state));
+          var content = output(item, state);
+          var listItem;
+          if (_.includes(['text', 'paragraph'], (_.head(item) || {}).type)) {
+            listItem = React.createElement(Text, {
+              style: styles.listItemText,
+              key: 1
+            }, content);
+          } else {
+            listItem = React.createElement(View, {
+              style: styles.listItem,
+              key: 1
+            }, content);
+          }
 
           return React.createElement(View, {
             key: i,
@@ -199,6 +208,7 @@ module.exports = function(styles) {
       react: function(node, output, state) {
         // Breaking words up in order to allow for text reflowing in flexbox
         var words = node.content.split(' ');
+
         var outputWords = _.map(words, function(word, i) {
           var elements = [];
           if (i != words.length - 1) {
