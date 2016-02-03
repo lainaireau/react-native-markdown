@@ -113,15 +113,20 @@ module.exports = function(styles) {
         var items = _.map(node.items, function(item, i) {
           var bullet;
           if (node.ordered) {
-            bullet = React.createElement(Text, { key: i, style: styles.listItemNumber }, (i + 1) + '. ');
+            bullet = React.createElement(Text, { key: 0, style: styles.listItemNumber }, (i + 1) + '. ');
           }
           else {
-            bullet = React.createElement(Text, { key: i, style: styles.listItemBullet }, '\u2022 ');
+            bullet = React.createElement(Text, { key: 0, style: styles.listItemBullet }, '\u2022 ');
           }
+
+          var listItem = React.createElement(Text, {
+            style: styles.listItem,
+            key: 1
+          }, output(item, state));
+
           return React.createElement(View, {
             key: i,
-            style: styles.listItem
-          }, [bullet, output(item, state)]);
+          }, [bullet, listItem]);
         });
 
         return React.createElement(View, { key: state.key, style: styles.list }, items);
@@ -147,7 +152,7 @@ module.exports = function(styles) {
     },
     paragraph: {
       react: function(node, output, state) {
-        return React.createElement(View, {
+        return React.createElement(Text, {
           key: state.key,
           style: styles.paragraph
         }, output(node.content, state));
@@ -194,12 +199,13 @@ module.exports = function(styles) {
       react: function(node, output, state) {
         // Breaking words up in order to allow for text reflowing in flexbox
         var words = node.content.split(' ');
-        words = _.map(words, function(word, i) {
+        var outputWords = _.map(words, function(word, i) {
           var elements = [];
           if (i != words.length - 1) {
             word = word + ' ';
           }
           var textStyles = [styles.text];
+
           if (!state.withinText) {
             textStyles.push(styles.plainText);
           }
@@ -211,7 +217,7 @@ module.exports = function(styles) {
             style: textStyles,
           }, word);
         });
-        return words;
+        return outputWords;
       }
     },
     u: {
