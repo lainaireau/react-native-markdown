@@ -206,28 +206,9 @@ module.exports = function(styles) {
     },
     text: {
       react: function(node, output, state) {
-        // Breaking words up in order to allow for text reflowing in flexbox
-        var words = node.content.split(' ');
-
-        var outputWords = _.map(words, function(word, i) {
-          var elements = [];
-          if (i != words.length - 1) {
-            word = word + ' ';
-          }
-          var textStyles = [styles.text];
-
-          if (!state.withinText) {
-            textStyles.push(styles.plainText);
-          }
-          if (!state.withinHeading) {
-            textStyles.push(styles.plainText);
-          }
-          return React.createElement(Text, {
-            key: i,
-            style: textStyles,
-          }, word);
-        });
-        return outputWords;
+        return React.createElement(Text, {
+          style: styles.text,
+        }, node.content);
       }
     },
     u: {
