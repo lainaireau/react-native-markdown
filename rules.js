@@ -9,7 +9,6 @@ var Lightbox = require('react-native-lightbox');
 
 var SimpleMarkdown = require('simple-markdown');
 var _ = require('lodash');
-var deviceWidth = React.Dimensions.get('window').width
 
 module.exports = function(styles, opts={}) {
   const enableLightBox = opts.enableLightBox || false
@@ -89,7 +88,8 @@ module.exports = function(styles, opts={}) {
     },
     image: {
       react: function(node, output, state) {
-        var target = node.target + '?w=' + deviceWidth * 4
+        var imageParam = opts.imageParam? opts.imageParam : ''
+        var target = node.target + imageParam
         var image = React.createElement(Image, {
           key: state.key,
           // resizeMode: 'contain',

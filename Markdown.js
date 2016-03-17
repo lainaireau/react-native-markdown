@@ -5,9 +5,6 @@ var {
 var _ = require('lodash');
 var SimpleMarkdown = require('simple-markdown');
 
-const deviceHeight = React.Dimensions.get('window').height
-const deviceWidth = React.Dimensions.get('window').width
-
 var styles = {
   autolink: {
     color: 'blue'
@@ -55,7 +52,6 @@ var styles = {
   },
   imageBox: {
     flex: 1,
-    width: deviceWidth,
     resizeMode: 'contain',
   },
   inlineCode: {
@@ -158,6 +154,7 @@ var Markdown = React.createClass({
     var opts = {
       enableLightBox: this.props.enableLightBox,
       navigator: this.props.navigator,
+      imageParam: this.props.imageParam,
     }
 
     var mergedStyles = _.merge({}, styles, this.props.style);
