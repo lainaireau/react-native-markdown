@@ -13,25 +13,50 @@ var _ = require('lodash');
 module.exports = function(styles, opts={}) {
   const enableLightBox = opts.enableLightBox || false
   const navigator = opts.navigator
+
+  const LINK_INSIDE = "(?:\\[[^\\]]*\\]|[^\\]]|\\](?=[^\\[]*\\]))*";
+  const LINK_HREF_AND_TITLE =
+          "\\s*<?([^\\s]*?)>?(?:\\s+['\"]([\\s\\S]*?)['\"])?\\s*";
+  var pressHandler = function(target) {
+    if(opts.onLink) {
+      opts.onLink(target)
+    }
+  };
   return {
     autolink: {
       react: function(node, output, state) {
         state.withinText = true;
-        var pressHandler = function() { Linking.openURL(node.target) };
+        const _pressHandler = () => {
+          pressHandler(node.target)
+        }
         return React.createElement(Text, {
           key: state.key,
           style: styles.autolink,
-          onPress: pressHandler
+          onPress: _pressHandler,
         }, output(node.content, state));
       }
     },
     blockQuote: {
       react: function(node, output, state) {
-        state.withinText = true;
-        return React.createElement(Text, {
+        state.withinQuote = true;
+        let blockQuote = React.createElement(Text, {
           key: state.key,
           style: styles.blockQuote
         }, output(node.content, state));
+        const image = _.get(opts, ['bgImage', 'blockQuote'])
+        if (image) {
+          const img = React.createElement(Image, {
+            key: 1,
+            resizeMode: 'cover',
+            source: image,
+            style: styles.bgImage,
+          });
+          return React.createElement(View, {
+            key: state.key,
+            style: styles.bgImageView,
+          }, [img, blockQuote]);
+        }
+        return blockQuote
       }
     },
     br: {
@@ -70,6 +95,7 @@ module.exports = function(styles, opts={}) {
       }
     },
     heading: {
+      match: SimpleMarkdown.blockRegex(/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n *)+/),
       react: function(node, output, state) {
         state.withinText = true;
         state.withinHeading = true;
@@ -115,14 +141,21 @@ module.exports = function(styles, opts={}) {
       }
     },
     link: {
+      match: SimpleMarkdown.inlineRegex(new RegExp(
+          "^\\[(" + LINK_INSIDE + ")\\]" + LINK_HREF_AND_TITLE + "\\)"
+      )),
       react: function(node, output, state) {
-        state.withinText = true;
-        var pressHandler = function() { Linking.openURL(node.target) };
-        return React.createElement(Text, {
+        state.withinLink = true;
+        const _pressHandler = () => {
+          pressHandler(node.target)
+        }
+        const link = React.createElement(Text, {
           key: state.key,
           style: styles.autolink,
-          onPress: pressHandler
+          onPress: _pressHandler,
         }, output(node.content, state));
+        state.withinLink = false;
+        return link
       }
     },
     list: {
@@ -139,7 +172,8 @@ module.exports = function(styles, opts={}) {
 
           var content = output(item, state);
           var listItem;
-          if (_.includes(['text', 'paragraph'], (_.head(item) || {}).type)) {
+          state.withinList = true;
+          if (_.includes(['text', 'paragraph', 'strong'], (_.head(item) || {}).type)) {
             listItem = React.createElement(Text, {
               style: styles.listItemText,
               key: 1
@@ -150,6 +184,7 @@ module.exports = function(styles, opts={}) {
               key: 1
             }, content);
           }
+          state.withinList = false;
 
           return React.createElement(View, {
             key: i,
@@ -180,6 +215,7 @@ module.exports = function(styles, opts={}) {
     },
     paragraph: {
       react: function(node, output, state) {
+        let paragraphStyle = styles.paragraph
         // Allow image to drop in next line within the paragraph
         if (_.some(node.content, {type: 'image'})) {
           state.withinParagraphWithImage = true
@@ -189,10 +225,18 @@ module.exports = function(styles, opts={}) {
           }, output(node.content, state));
           state.withinParagraphWithImage = false
           return paragraph
+        } else if (_.size(node.content) < 3 && _.some(node.content, {type: 'strong'})){
+          // align to center for Strong only content
+          // require a check of content array size below 3,
+          // as parse will include additional space as `text`
+          paragraphStyle = styles.paragraphCenter
+        }
+        if (state.withinList) {
+          paragraphStyle = [paragraphStyle, styles.noMargin]
         }
         return React.createElement(Text, {
           key: state.key,
-          style: styles.paragraph,
+          style: paragraphStyle,
         }, output(node.content, state));
       }
     },
@@ -235,8 +279,12 @@ module.exports = function(styles, opts={}) {
     },
     text: {
       react: function(node, output, state) {
+        let textStyle = styles.text
+        if (state.withinLink) {
+          textStyle = [styles.text, styles.autolink]
+        }
         return React.createElement(Text, {
-          style: styles.text,
+          style: textStyle,
         }, node.content);
       }
     },
@@ -252,12 +300,13 @@ module.exports = function(styles, opts={}) {
     url: {
       react: function(node, output, state) {
         state.withinText = true;
-        var pressHandler = function() { Linking.openURL(node.target) };
-
+        const _pressHandler = () => {
+          pressHandler(node.target)
+        }
         return React.createElement(Text, {
           key: state.key,
           style: styles.autolink,
-          onPress: pressHandler
+          onPress: _pressHandler,
         }, output(node.content, state));
       }
     }

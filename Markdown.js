@@ -9,6 +9,18 @@ var styles = {
   autolink: {
     color: 'blue'
   },
+  bgImage: {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  bgImageView: {
+    flex: 1,
+    overflow: 'hidden',
+  },
   view: {
   },
   codeBlock: {
@@ -76,7 +88,7 @@ var styles = {
     lineHeight: 20
   },
   listItemNumber: {
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   listRow: {
     flexDirection: 'row',
@@ -89,12 +101,25 @@ var styles = {
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
   },
+  paragraphCenter: {
+    marginTop: 10,
+    marginBottom: 10,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    textAlign: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
   paragraphWithImage: {
     flex: 1,
     marginTop: 10,
     marginBottom: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start'
+  },
+  noMargin: {
+    marginTop: 0,
+    marginBottom: 0,
   },
   strong: {
     fontWeight: 'bold'
@@ -155,6 +180,8 @@ var Markdown = React.createClass({
       enableLightBox: this.props.enableLightBox,
       navigator: this.props.navigator,
       imageParam: this.props.imageParam,
+      onLink: this.props.onLink,
+      bgImage: this.props.bgImage,
     }
 
     var mergedStyles = _.merge({}, styles, this.props.style);
