@@ -124,6 +124,7 @@ module.exports = function(styles, opts = {}) {
         if (enableLightBox) {
           return React.createElement(Lightbox, {
             activeProps: styles.imageBox,
+            key: state.key,
             navigator,
             onOpen: opts.onImageOpen,
             onClose: opts.onImageClose,
@@ -285,16 +286,17 @@ module.exports = function(styles, opts = {}) {
           textStyle = [styles.text, styles.autolink]
         }
         return React.createElement(Text, {
+          key: state.key,
           style: textStyle,
         }, node.content);
       },
     },
-    u: {
+    u: { // u will to the same as strong, to avoid the View nested inside text problem
       react: function(node, output, state) {
         state.withinText = true;
-        return React.createElement(View, {
+        return React.createElement(Text, {
           key: state.key,
-          style: styles.u,
+          style: styles.strong,
         }, output(node.content, state));
       },
     },
