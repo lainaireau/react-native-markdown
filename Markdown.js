@@ -206,7 +206,9 @@ var Markdown = React.createClass({
       this.props.onLoad();
     }
   },
-
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return _.isEqual(nextProps.children, this.props.children);
+  },
   render: function() {
 
     var child = _.isArray(this.props.children)
