@@ -1,13 +1,15 @@
-var React = require('react-native');
-var {
+import React from 'react';
+
+import {
   Image,
   Text,
   View,
-} = React;
-var Lightbox = require('react-native-lightbox');
+} from 'react-native';
 
-var SimpleMarkdown = require('simple-markdown');
-var _ = require('lodash');
+import Lightbox from 'react-native-lightbox';
+
+import SimpleMarkdown from 'simple-markdown';
+import _ from 'lodash';
 
 module.exports = function(styles, opts = {}) {
   const enableLightBox = opts.enableLightBox || false;

@@ -1,10 +1,12 @@
-var React = require('react-native');
-var {
+import React from 'react';
+
+import {
   View,
   Dimensions,
-} = React;
-var _ = require('lodash');
-var SimpleMarkdown = require('simple-markdown');
+} from 'react-native';
+
+import _ from 'lodash';
+import SimpleMarkdown from 'simple-markdown';
 
 var styles = {
   autolink: {
