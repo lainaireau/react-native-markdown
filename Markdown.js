@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+  PropTypes,
+} from 'react';
 
 import {
   View,
@@ -169,6 +171,17 @@ var styles = {
 };
 
 var Markdown = React.createClass({
+
+  propTypes: {
+    enableLightBox: PropTypes.bool,
+    onLink: PropTypes.func,
+    onImageOpen: PropTypes.func,
+    onImageClose: PropTypes.func,
+    onLoad: PropTypes.func,
+    style: PropTypes.shape({
+      view: View.propTypes.style,
+    }),
+  },
 
   getDefaultProps: function() {
     return {

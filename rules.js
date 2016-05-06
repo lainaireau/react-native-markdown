@@ -102,7 +102,7 @@ module.exports = function(styles, opts = {}) {
         state.withinHeading = true;
         const ret = React.createElement(Text, {
           key: state.key,
-          style: [styles.heading, styles['heading' + node.level]]
+          style: [styles.heading, styles['heading' + node.level]],
         }, output(node.content, state));
         state.withinHeading = false;
         return ret;
@@ -236,7 +236,7 @@ module.exports = function(styles, opts = {}) {
           paragraphStyle = styles.paragraphCenter;
         }
         if (state.withinList) {
-          paragraphStyle = [paragraphStyle, styles.noMargin]
+          paragraphStyle = [paragraphStyle, styles.noMargin];
         }
         return React.createElement(Text, {
           key: state.key,
@@ -285,7 +285,7 @@ module.exports = function(styles, opts = {}) {
       react: function(node, output, state) {
         let textStyle = styles.text;
         if (state.withinLink) {
-          textStyle = [styles.text, styles.autolink]
+          textStyle = [styles.text, styles.autolink];
         }
         return React.createElement(Text, {
           key: state.key,
