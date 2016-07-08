@@ -222,7 +222,7 @@ var Markdown = React.createClass({
     }
   },
   shouldComponentUpdate: function(nextProps, nextState) {
-    return _.isEqual(nextProps.children, this.props.children);
+    return !_.isEqual(nextProps.children, this.props.children);
   },
   render: function() {
 
