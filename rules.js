@@ -23,6 +23,18 @@ module.exports = function(styles, opts = {}) {
       opts.onLink(target);
     }
   };
+  var parseInline = function(parse, content, state) {
+    var isCurrentlyInline = state.inline || false;
+    state.inline = true;
+    var result = parse(content, state);
+    state.inline = isCurrentlyInline;
+    return result;
+  };
+  var parseCaptureInline = function(capture, parse, state) {
+    return {
+      content: parseInline(parse, capture[2], state)
+    };
+  };
   return {
     autolink: {
       react: function(node, output, state) {
@@ -136,6 +148,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     inlineCode: {
+      parse: parseCaptureInline,
       react: function(node, output, state) {
         state.withinText = true;
         return React.createElement(Text, {

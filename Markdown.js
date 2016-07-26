@@ -33,7 +33,7 @@ var styles = {
     fontWeight: '500',
   },
   del: {
-    containerBackgroundColor: '#222222',
+    backgroundColor: '#222222',
   },
   em: {
     fontStyle: 'italic',
