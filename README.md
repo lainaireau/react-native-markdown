@@ -28,7 +28,19 @@ var mdApp = React.createClass({
   render: function() {
     return (
       <View>
-        <Markdown>
+        <Markdown >
+          # This is Heading 1
+          ## This is Heading 2
+          1. List1 {'\n'}
+          2. List2 {'\n'} 
+          {'\t'}1. sublist1{'\n'}
+          {'\t'}description sublist1.{'\n'}
+          {'\t'}2. sublist2{'\t\t'}{'\n'}
+          * List3{'\n'}
+          * List4{'\n'}
+          {'\t'}1. **bold text** {'\n'}
+          {'\t'}2. this line contain * and should not be a new sublist{'\t\t'}{'\n'}
+          5.  Last list{'\n\n'}
           Some *really* basic **Markdown**.
           {'\n\n'}
           | # | Name   | Age |{'\n'}
@@ -36,7 +48,7 @@ var mdApp = React.createClass({
           | 1 | John   | 19  |{'\n'}
           | 2 | Sally  | 18  |{'\n'}
           | 3 | Stream | 20  |{'\n'}
-        </Markdown>
+        </Markdown >
       </View>
     );
   }
