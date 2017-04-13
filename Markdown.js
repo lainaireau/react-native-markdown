@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import _ from 'lodash';
-import SimpleMarkdown from 'simple-markdown';
+import SimpleMarkdown from 'simple-markdown-custom';
 
 var styles = {
   autolink: {
