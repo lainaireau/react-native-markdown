@@ -11,7 +11,7 @@
   "dependencies": {
     "lodash": "^4.12.0",
     "react-native-lightbox": "^0.6.0",
-    "simple-markdown-custom": "git://github.com/andangrd/simple-markdown.git",
+    "simple-markdown-custom": "git://github.com/andangrd/simple-markdown.git"
   },
   "keywords": [
     "react",
