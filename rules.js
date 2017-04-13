@@ -177,6 +177,49 @@ module.exports = function(styles, opts = {}) {
     },
     list: {
       react: function(node, output, state) {
+        var numberIndex = 1;
+        var items = _.map(node.items, function(item, i) {
+          var bullet;
+          if (node.ordered) {
+            bullet = React.createElement(Text, { key: 0, style: styles.listItemNumber }, (numberIndex) + '. ');
+          }
+          else {
+            bullet = React.createElement(Text, { key: 0, style: styles.listItemBullet }, '\u2022 ');
+          }
+
+          if(item[0].type == 'sublist') {
+            numberIndex = numberIndex-1;
+            bullet = React.createElement(Text, { key: 0, style: styles.listItemBullet }, '');
+          }
+
+          var content = output(item, state);
+          var listItem;
+          state.withinList = true;
+          if (_.includes(['text', 'paragraph', 'strong'], (_.head(item) || {}).type)) {
+            listItem = React.createElement(Text, {
+              style: styles.listItemText,
+              key: 1,
+            }, content);
+          } else {
+            listItem = React.createElement(View, {
+              style: styles.listItem,
+              key: 1,
+            }, content);
+          }
+          state.withinList = false;
+          numberIndex++;
+
+          return React.createElement(View, {
+            key: i,
+            style: styles.listRow,
+          }, [bullet, listItem]);
+        });
+
+        return React.createElement(View, { key: state.key, style: styles.list }, items);
+      },
+    },
+    sublist: {
+      react: function(node, output, state) {
 
         var items = _.map(node.items, function(item, i) {
           var bullet;
@@ -202,14 +245,13 @@ module.exports = function(styles, opts = {}) {
             }, content);
           }
           state.withinList = false;
-
           return React.createElement(View, {
             key: i,
             style: styles.listRow,
           }, [bullet, listItem]);
         });
 
-        return React.createElement(View, { key: state.key, style: styles.list }, items);
+        return React.createElement(View, { key: state.key, style: styles.sublist }, items);
       },
     },
     mailto: {
