@@ -2,7 +2,7 @@
   "name": "react-native-markdown",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lwansbrough/react-native-markdown.git"
+    "url": "https://github.com/andangrd/simple-markdown.git"
   },
   "version": "0.1.1",
   "description": "A component for rendering Markdown in React Native",
