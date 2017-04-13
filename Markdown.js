@@ -85,7 +85,7 @@ var styles = {
   },
   sublist:{
     paddingLeft: 20,
-    width: Dimensions.get('window').width - 45,
+    width: Dimensions.get('window').width - 60,
   },
   listItem: {
     flexDirection: 'row',
