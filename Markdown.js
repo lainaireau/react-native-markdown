@@ -82,13 +82,17 @@ var styles = {
     fontWeight: 'bold',
   },
   list: {
-
+  },
+  sublist:{
+    paddingLeft: 20,
+    width: Dimensions.get('window').width - 45,
   },
   listItem: {
     flexDirection: 'row',
   },
   listItemText: {
     flex: 1,
+    
   },
   listItemBullet: {
     fontSize: 20,
@@ -147,7 +151,7 @@ var styles = {
     padding: 5,
   },
   tableRow: {
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
     borderColor: '#222222',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -166,7 +170,7 @@ var styles = {
   },
   u: {
     borderColor: '#222222',
-    borderBottomWidth: 1,
+    //borderBottomWidth: 1,
   },
 };
 
