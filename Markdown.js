@@ -89,7 +89,6 @@ var styles = {
   },
   listItem: {
     flexDirection: 'row',
-    fontWeight: 'normal',
   },
   listItemText: {
     flex: 1,
