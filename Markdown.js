@@ -234,7 +234,6 @@ var Markdown = React.createClass({
     var child = _.isArray(this.props.children)
       ? this.props.children.join('') : this.props.children;
     var tree = this.parse(child);
-    console.log('styles ', this.props.styles)
     return <View style={[styles.view, this.props.styles.view]}>{this.renderer(tree)}</View>;
   },
 });
