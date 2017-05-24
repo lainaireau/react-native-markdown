@@ -1,6 +1,6 @@
 # react-native-markdown
 
-A component for rendering Markdown in React Native. Pull requests welcome.
+A component for rendering Markdown in React Native. Pull requests really appreciated.
 
 ## Known issues
 
