@@ -16,16 +16,16 @@ All you need is to `require` the `react-native-markdown` module and then use the
 `<Markdown/>` tag.
 
 ```javascript
-var React = require('react-native');
-var {
+import { Component } from 'react';
+import {
   AppRegistry,
   StyleSheet,
   View
-} = React;
-var Markdown = require('react-native-markdown');
+} from 'react-native';
+import Markdown from 'react-native-markdown';
 
-var mdApp = React.createClass({
-  render: function() {
+class mdApp extends Component {
+  render() {
     return (
       <View>
         <Markdown >
@@ -76,7 +76,8 @@ Default style properties will be applied to the markdown. You will likely want t
 - `image` (`<Image>`) - Implemented but size is fixed to `50x50` until auto width is supported by React Native.
 - `inlineCode` (`<Text>`)
 - `link` (`<Text>`) - WIP
-- `list` (`<View>`) - Also `listItem` (`<View>`), `listItemBullet` (`<Text>`) and `listItemNumber` (`<Text>`)
+- `list` (`<View>`) - Also `sublist` (`<View>`), `listItem` (`<View>`), `listItemBullet` (`<Text>`) and `listItemNumber` (`<Text>`)
+- `sublist` (`<View`) - Also `listItem` (`<View>`), `listItemBullet` (`<Text>`) and `listItemNumber` (`<Text>`)
 - `mailto` (`<Text>`) - WIP
 - `newline` (`<Text>`) - WIP
 - `paragraph` (`<View>`)
