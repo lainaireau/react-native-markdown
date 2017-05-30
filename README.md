@@ -8,11 +8,15 @@ A component for rendering Markdown in React Native. Pull requests are really app
 
 ## Getting started
 
-1. `npm install react-native-markdown --save`
+1. add this line to your package.json `dependencies`
+
+    `"react-native-simple-markdown": "git+https://github.com/andangrd/react-native-markdown.git"`
+    
+2. run `npm install`
 
 ## Usage
 
-All you need is to `require` the `react-native-markdown` module and then use the
+All you need is to `import` the `react-native-simple-markdown` module and then use the
 `<Markdown/>` tag.
 
 ```javascript
@@ -22,7 +26,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import Markdown from 'react-native-markdown';
+import Markdown from 'react-native-simple-markdown';
 
 class mdApp extends Component {
   render() {
