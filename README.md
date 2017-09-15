@@ -19,6 +19,31 @@ A component for rendering Markdown in React Native. Pull requests are really app
 All you need is to `import` the `react-native-simple-markdown` module and then use the
 `<Markdown/>` tag.
 
+here is simple implementation :
+```javascript
+  <Markdown styles={{
+      heading2: {
+        color: 'green'
+      },
+      strong: {
+        color: 'blue'
+      },
+      em: {
+        color: 'purple'
+      },
+      text: {
+        color: 'red',
+      }
+    }
+  } >
+
+
+    ## this is header {'\n\n\n\n'}
+    {'this is _italic_ '}
+    {'this is **strong**'}
+  </Markdown>
+```
+
 ```javascript
 import { Component } from 'react';
 import {
