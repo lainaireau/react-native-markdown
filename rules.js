@@ -37,7 +37,7 @@ module.exports = function(styles, opts = {}) {
   };
   return {
     autolink: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         const _pressHandler = () => {
           pressHandler(node.target);
@@ -50,7 +50,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     blockQuote: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinQuote = true;
         let blockQuote = React.createElement(Text, {
           key: state.key,
@@ -73,7 +73,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     br: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         return React.createElement(Text, {
           key: state.key,
           style: styles.br,
@@ -81,7 +81,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     codeBlock: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         return React.createElement(Text, {
           key: state.key,
@@ -90,7 +90,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     del: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         return React.createElement(Text, {
           key: state.key,
@@ -99,8 +99,12 @@ module.exports = function(styles, opts = {}) {
       },
     },
     em: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
+        state.style = {
+          ...(state.style || {}),
+          ...styles.em
+        };
         return React.createElement(Text, {
           key: state.key,
           style: styles.em,
@@ -109,24 +113,30 @@ module.exports = function(styles, opts = {}) {
     },
     heading: {
       match: SimpleMarkdown.blockRegex(/^ *(#{1,6}) *([^\n]+?) *#* *(?:\n *)+/),
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
+        // const newState = {...state};
         state.withinText = true;
         state.withinHeading = true;
+
+        state.style = {
+          ...(state.style || {}),
+          ...styles['heading' + node.level]
+        };
+
         const ret = React.createElement(Text, {
           key: state.key,
-          style: [styles.heading, styles['heading' + node.level]],
+          style: state.style,
         }, output(node.content, state));
-        state.withinHeading = false;
         return ret;
       },
     },
     hr: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         return React.createElement(View, { key: state.key, style: styles.hr });
       },
     },
     image: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         var imageParam = opts.imageParam ? opts.imageParam : '';
         var target = node.target + imageParam;
         var image = React.createElement(Image, {
@@ -149,7 +159,7 @@ module.exports = function(styles, opts = {}) {
     },
     inlineCode: {
       parse: parseCaptureInline,
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         return React.createElement(Text, {
           key: state.key,
@@ -161,7 +171,7 @@ module.exports = function(styles, opts = {}) {
       match: SimpleMarkdown.inlineRegex(new RegExp(
           '^\\[(' + LINK_INSIDE + ')\\]\\(' + LINK_HREF_AND_TITLE + '\\)'
       )),
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinLink = true;
         const _pressHandler = () => {
           pressHandler(node.target);
@@ -176,7 +186,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     list: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         var numberIndex = 1;
         var items = _.map(node.items, function(item, i) {
           var bullet;
@@ -219,7 +229,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     sublist: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
 
         var items = _.map(node.items, function(item, i) {
           var bullet;
@@ -255,7 +265,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     mailto: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         return React.createElement(Text, {
           key: state.key,
@@ -265,7 +275,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     newline: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         return React.createElement(Text, {
           key: state.key,
           style: styles.newline,
@@ -273,7 +283,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     paragraph: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         let paragraphStyle = styles.paragraph;
         // Allow image to drop in next line within the paragraph
         if (_.some(node.content, {type: 'image'})) {
@@ -300,16 +310,20 @@ module.exports = function(styles, opts = {}) {
       },
     },
     strong: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
+        state.style = {
+          ...(state.style || {}),
+          ...styles.strong
+        };
         return React.createElement(Text, {
           key: state.key,
-          style: styles.strong,
+          style: state.style,
         }, output(node.content, state));
       },
     },
     table: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         var headers = _.map(node.header, function(content, i) {
           return React.createElement(Text, {
             key: i,
@@ -337,11 +351,16 @@ module.exports = function(styles, opts = {}) {
       },
     },
     text: {
-      react: function(node, output, state) {
-        let textStyle = styles.text;
+      react: function(node, output, {...state}) {
+        let textStyle = {
+          ...styles.text,
+          ...(state.style || {})
+        };
+        
         if (state.withinLink) {
           textStyle = [styles.text, styles.autolink];
         }
+        
         return React.createElement(Text, {
           key: state.key,
           style: textStyle,
@@ -349,8 +368,12 @@ module.exports = function(styles, opts = {}) {
       },
     },
     u: { // u will to the same as strong, to avoid the View nested inside text problem
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
+        state.style = {
+          ...(state.style || {}),
+          ...styles.u
+        };
         return React.createElement(Text, {
           key: state.key,
           style: styles.strong,
@@ -358,7 +381,7 @@ module.exports = function(styles, opts = {}) {
       },
     },
     url: {
-      react: function(node, output, state) {
+      react: function(node, output, {...state}) {
         state.withinText = true;
         const _pressHandler = () => {
           pressHandler(node.target);
