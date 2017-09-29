@@ -1,6 +1,6 @@
-import React, {
-  PropTypes,
-} from 'react';
+import React from 'react';
+import CreateClass from 'create-react-class';
+import PropTypes from 'prop-types';
 
 import {
   View,
@@ -92,7 +92,7 @@ var styles = {
   },
   listItemText: {
     flex: 1,
-    
+
   },
   listItemBullet: {
     fontSize: 20,
@@ -174,7 +174,7 @@ var styles = {
   },
 };
 
-var Markdown = React.createClass({
+var Markdown = CreateClass({
 
   propTypes: {
     enableLightBox: PropTypes.bool,
