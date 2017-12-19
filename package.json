@@ -4,12 +4,13 @@
     "type": "git",
     "url": "https://github.com/andangrd/simple-markdown.git"
   },
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A component for rendering Markdown in React Native",
   "main": "Markdown.js",
   "author": "Lochlan Wansbrough <lochie@live.com> (http://lwansbrough.com) edited by andangrd",
   "dependencies": {
     "lodash": "^4.12.0",
+    "prop-types": "^15.6.0",
     "react-native-lightbox": "^0.6.0",
     "simple-markdown-custom": "git://github.com/andangrd/simple-markdown.git"
   },
