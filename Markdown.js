@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CreateClass from 'create-react-class';
 
 import {
   View,
@@ -173,7 +174,7 @@ var styles = {
   },
 };
 
-var Markdown = React.createClass({
+var Markdown = CreateClass({
 
   propTypes: {
     enableLightBox: PropTypes.bool,
