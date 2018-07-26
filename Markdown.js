@@ -5,6 +5,7 @@ import CreateClass from 'create-react-class';
 import {
   View,
   Dimensions,
+  ViewPropTypes,
 } from 'react-native';
 
 import _ from 'lodash';
@@ -183,7 +184,7 @@ var Markdown = CreateClass({
     onImageClose: PropTypes.func,
     onLoad: PropTypes.func,
     styles: PropTypes.shape({
-      view: View.propTypes.style,
+      view: ViewPropTypes.style,
     }),
   },
 
